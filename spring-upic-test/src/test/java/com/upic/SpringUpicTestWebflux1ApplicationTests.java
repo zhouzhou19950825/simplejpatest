@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.upic.po.Student;
@@ -74,5 +76,17 @@ public class SpringUpicTestWebflux1ApplicationTests {
 	@Test
 	public void delete() {
 		studentDao.delete(3L);
+	}
+	
+	/**
+	 * 切记 pagerequest 第一个参数是页数是从0开始，第二个参数条数
+	 * Page对象中的getContent()方法则是获取List对象
+	 */
+	@Test
+	public void testPageable() {
+		Page<Student> findAll = studentDao.findAll(new PageRequest(0, 10));
+		
+		//第二种自定义分页
+		Page<Student> findByUserName = studentDao.findByUserName("", new PageRequest(0, 10));
 	}
 }
